@@ -10,6 +10,8 @@ class contact_edit_form extends moodleform {
 
         $icontactid = $this->_customdata['icontactid'];
         $contact = $this->_customdata['contact'];
+        $cmid = $this->_customdata['cmid'];
+
 
 
         // emlement hidden
@@ -17,6 +19,8 @@ class contact_edit_form extends moodleform {
         $mform->setType('icontactid', PARAM_INT);
 
         $mform->addElement('hidden', 'contactid', $contact->id);
+        $mform->addElement('hidden', 'cmid', $cmid);
+
 
         // Add elements name to your form.
         $mform->addElement('text','name', get_string('name' , 'icontact'));
@@ -44,6 +48,8 @@ class contact_edit_form extends moodleform {
         $buttonarray[] = &$mform->createElement('submit', 'saveanddisplay', get_string('savechangesanddisplay'), $classarray);
         $buttonarray[] = &$mform->createElement('cancel');
         $mform->addGroup($buttonarray, 'buttonar', '', array(' '), false);
+
+        // $this->add_action_buttons(true);
     }
 
     // Custom validation should be added here.

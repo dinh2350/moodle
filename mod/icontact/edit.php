@@ -4,6 +4,7 @@ require_once('edit_form.php');
 
 $id = optional_param('id', 0, PARAM_INT); // contact id
 $icontactid = optional_param('icontact', 0, PARAM_INT); // icontact id
+$cmid = required_param('cmid', PARAM_INT); // cmid
 $PAGE->set_pagelayout('admin');
 
 if ($id) {
@@ -14,19 +15,17 @@ if ($id) {
     $contact = null;
 }
 
-$url = new moodle_url('/mod/icontact/edit.php', $pageparams);
+$url = new moodle_url('/mod/icontact/edit.php', ['id' => $id, 'cm' => $cmid, 'icontact' => $icontactid]);
 $PAGE->set_url($url);
-
-echo $OUTPUT->header();
 
 $args = array(
     'icontactid' => $icontactid,
-    'contact' =>  $contact
+    'contact' =>  $contact,
+    'cmid' => $cmid
 );
 $mform = new contact_edit_form(null,$args);
-
 if ($mform->is_cancelled()) {
-    // redicrect
+    redirect("view.php?id=$cmid");
 } elseif ($fromform = $mform->get_data()) {
    if (empty($fromform->contactid)) {
         // In creating the contact.
@@ -43,17 +42,21 @@ if ($mform->is_cancelled()) {
       // In updating the contact.
         $contactUpdate = $DB->get_record('contacts' , array("id" => $fromform->contactid));
         if($contactUpdate){
+            echo "update run";
             $contactUpdate->name=$fromform->name;
             $contactUpdate->email=$fromform->email;
             $contactUpdate->phone=$fromform->phone;
             $contactUpdate->address=$fromform->address;
-            return $DB->update_record('contacts', $contactUpdate);
+            $DB->update_record('contacts', $contactUpdate);
         }
    }
-    
+   redirect("view.php?id=$cmid");
 } else {
     $mform->set_data($contact);
-    $mform->display();
 }
 
+echo $OUTPUT->header();
 
+$mform->display();
+
+echo $OUTPUT->footer();

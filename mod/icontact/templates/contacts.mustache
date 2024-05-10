@@ -1,0 +1,28 @@
+<h1> My Contacts </h1>
+<table  class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>address</th>
+            <th>action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#contacts}}
+        <tr>
+            <td>{{name}}</td>
+            <td>{{email}}</td>
+            <td>{{phone}}</td>
+            <td>{{address}}</td>
+            <td>
+                <a class='btn btn-success' href='/moodle/mod/icontact/edit.php?id={{id}}&cmid={{cmid}}'>Edit</a>
+                <a class='btn btn-danger'>delete</a>
+            </td>
+
+
+        </tr>
+        {{/contacts}}
+    </tbody>
+</table>

@@ -52,12 +52,26 @@ if (!$contacts = $DB->get_records("contacts", array("icontactid" => $cm->instanc
 
 echo $OUTPUT->header();
 
-echo 'Page Contact View <br/>';
+// echo '<pre>'; print_r($contacts); echo '</pre>';
 
-echo '<pre>'; print_r($contacts); echo '</pre>';
-
-echo '<a href="/moodle/mod/icontact/edit.php?icontact=1">create new contact</a>';
-
-
+echo "<a class='btn btn-primary' href='/moodle/mod/icontact/edit.php?icontact={$icontact->id}&cmid={$cm->id}'>create new contact</a>";
+// echo "/moodle/mod/icontact/edit.php?icontact={$icontact->id}"
 // render
 
+$records = [];
+foreach ($contacts as $contact) {
+    $records[] = [
+        'id' => $contact->id,
+        'name' => $contact->name,
+        'email' => $contact->email,
+        'phone' => $contact->phone,
+        'address' => $contact->address,
+        'cmid'=>$cm->id
+    ];
+}
+
+$templatecontext = [
+    'contacts' => $records
+];
+
+echo $OUTPUT->render_from_template('mod_icontact/contacts',$templatecontext);
