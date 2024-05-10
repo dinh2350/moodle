@@ -43,21 +43,16 @@ if (! $course = $DB->get_record("course", array("id" => $cm->course))) {
 require_course_login($course, false, $cm);
 
 if (!$icontact = icontact_get_icontact($cm->instance)) {
-    throw new \moodle_exception('invalidcoursemodule');
+    throw new \moodle_exception('invalidIcontactmodule');
 }
 
 if (!$contacts = $DB->get_records("contacts", array("icontactid" => $cm->instance,'softdeleted' => 0))) {
-    throw new \moodle_exception('invalidcoursemodule');
+    $contacts= [];
 }
 
 echo $OUTPUT->header();
 
-// echo '<pre>'; print_r($contacts); echo '</pre>';
-
-echo "<a class='btn btn-primary' href='/moodle/mod/icontact/edit.php?icontact={$icontact->id}&cmid={$cm->id}'>create new contact</a>";
-// echo "/moodle/mod/icontact/edit.php?icontact={$icontact->id}"
 // render
-
 $records = [];
 foreach ($contacts as $contact) {
     $records[] = [
@@ -65,13 +60,14 @@ foreach ($contacts as $contact) {
         'name' => $contact->name,
         'email' => $contact->email,
         'phone' => $contact->phone,
-        'address' => $contact->address,
-        'cmid'=>$cm->id
+        'address' => $contact->address
     ];
 }
 
 $templatecontext = [
-    'contacts' => $records
+    'contacts' => $records,
+    'cmid'=>$cm->id,
+    'icontactid'=>$icontact->id
 ];
 
 echo $OUTPUT->render_from_template('mod_icontact/contacts',$templatecontext);

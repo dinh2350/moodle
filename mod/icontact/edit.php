@@ -39,7 +39,7 @@ if ($mform->is_cancelled()) {
         $DB->insert_record("contacts", $data);
    }
    else{
-      // In updating the contact.
+        // In updating the contact.
         $contactUpdate = $DB->get_record('contacts' , array("id" => $fromform->contactid));
         if($contactUpdate){
             echo "update run";

@@ -1,4 +1,8 @@
-<h1> My Contacts </h1>
+<div class='d-flex justify-content-end my-2'>
+    <a class='btn btn-primary' href='/moodle/mod/icontact/edit.php?icontact={{icontactid}}&cmid={{cmid}}'>
+        Create new contact
+    </a>
+</div>
 <table  class="table">
     <thead>
         <tr>
@@ -18,7 +22,7 @@
             <td>{{address}}</td>
             <td>
                 <a class='btn btn-success' href='/moodle/mod/icontact/edit.php?id={{id}}&cmid={{cmid}}'>Edit</a>
-                <a class='btn btn-danger'>delete</a>
+                <a class='btn btn-danger' href='/moodle/mod/icontact/delete.php?id={{id}}&cmid={{cmid}}'>delete</a>
             </td>
 
 
