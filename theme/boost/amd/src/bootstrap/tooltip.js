@@ -36,6 +36,11 @@ const TRIGGER_HOVER = 'hover'
 const TRIGGER_FOCUS = 'focus'
 const TRIGGER_CLICK = 'click'
 const TRIGGER_MANUAL = 'manual'
+const TRIGGER_KEYDOWN = 'keydown'
+
+const ESCAPE = "Escape"
+const ESC = "ESC"
+const ESC_CODE = "27"
 
 const AttachmentMap = {
   AUTO: 'auto',
@@ -516,6 +521,13 @@ class Tooltip {
           .on(eventOut, this.config.selector, event => this._leave(event))
       }
     })
+
+    $(this.element).on(TRIGGER_KEYDOWN, this.config.selector, event => {
+      if (event.key === ESCAPE || event.key === ESC || event.keyCode === ESC_CODE) {
+        this._leave(event);
+        event.target.blur();
+      }
+    });
 
     this._hideModalHandler = () => {
       if (this.element) {
